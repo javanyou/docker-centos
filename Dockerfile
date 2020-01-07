@@ -106,3 +106,8 @@ RUN cd /tmp/ffmpeg_sources && \
 RUN curl -s curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh  | bash
 RUN yum install -y git-lfs
 RUN git lfs install --skip-repo
+
+# Add a new user "master" with user id 8877
+RUN useradd -u 8877 master
+# Change to non-root privilege
+USER master
