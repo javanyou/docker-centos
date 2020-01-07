@@ -1,7 +1,5 @@
 FROM centos:7
 
-USER root
-
 RUN yum install -y epel-release
 # install FFmpeg according to the official documentation on how to install
 # FFmpeg on CentOS: https://trac.ffmpeg.org/wiki/CompilationGuide/Centos
