@@ -107,7 +107,12 @@ RUN curl -s curl -s https://packagecloud.io/install/repositories/github/git-lfs/
 RUN yum install -y git-lfs
 RUN git lfs install --skip-repo
 
-# Add a new user "master" with user id 8877
-RUN useradd -u 8877 master
-# Change to non-root privilege
+# Add the user UID:1000, GID:1000, home at /master
+RUN groupadd -r master -g 1000 && useradd -u 1000 -r -g master -m -d /home/master -s /sbin/nologin -c "master user" master && \
+    chmod 755 /home/master
+
+# Set the working directory to app home directory
+WORKDIR /home/master
+
+# Specify the user to execute all commands below
 USER master
