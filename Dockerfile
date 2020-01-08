@@ -15,7 +15,7 @@ RUN cd /tmp/ffmpeg_sources && \
     tar xjvf nasm-2.14.02.tar.bz2 && \
     cd nasm-2.14.02 && \
     ./autogen.sh && \
-    ./configure --prefix="/tmp/ffmpeg_build" --bindir="/tmp/bin" && \
+    ./configure && \
     make && \
     make install
 
@@ -24,7 +24,7 @@ RUN cd /tmp/ffmpeg_sources && \
     curl -O -L http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz && \
     tar xzvf yasm-1.3.0.tar.gz && \
     cd yasm-1.3.0 && \
-    ./configure --prefix="/tmp/ffmpeg_build" --bindir="/tmp/bin" && \
+    ./configure && \
     make && \
     make install
 
@@ -78,29 +78,6 @@ RUN cd /tmp/ffmpeg_sources && \
     ./configure --prefix="/tmp/ffmpeg_build" --disable-examples --disable-unit-tests --enable-vp9-highbitdepth --as=yasm && \
     PATH="$PATH:/tmp/bin" make && \
     make install
-
-# FFmpeg
-RUN cd /tmp/ffmpeg_sources && \
-    curl -O http://ffmpeg.org/releases/ffmpeg-4.1.1.tar.bz2 && \
-    tar xjvf ffmpeg-4.1.1.tar.bz2 && \
-    cd ffmpeg-4.1.1 && \
-    PATH="$PATH:/tmp/bin" PKG_CONFIG_PATH="/tmp/ffmpeg_build/lib/pkgconfig" ./configure \
-        --pkg-config-flags="--static" \
-        --extra-cflags="-I/tmp/ffmpeg_build/include" \
-        --extra-ldflags="-L/tmp/ffmpeg_build/lib -ldl" \
-        --extra-libs=-lpthread \
-        --enable-gpl \
-        --enable-libfdk_aac \
-        --enable-libfreetype \
-        --enable-libmp3lame \
-        --enable-libopus \
-        --enable-libvpx \
-        --enable-libx264 \
-        --enable-libx265 \
-        --enable-nonfree && \
-    PATH="$PATH:/tmp/bin" make && \
-    make install && \
-    hash -r
 
 # Install git lfs support.
 RUN curl -s curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh  | bash
