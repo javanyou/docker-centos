@@ -5,10 +5,19 @@ RUN yum install -y epel-release
 # FFmpeg on CentOS: https://trac.ffmpeg.org/wiki/CompilationGuide/Centos
 
 # Get the Dependencies
-RUN yum install -y autoconf automake bzip2 bzip2-devel cmake freetype-devel gcc gcc-c++ git libtool make mercurial pkgconfig zlib-devel
+RUN yum install -y autoconf automake bzip2 bzip2-devel freetype-devel gcc gcc-c++ git libtool make mercurial pkgconfig zlib-devel
 
 RUN mkdir /tmp/ffmpeg_sources
 
+# cmake 
+RUN cd /tmp/ffmpeg_sources && \
+    curl -O -L https://cmake.org/files/v3.6/cmake-3.6.0.tar.gz && \
+    tar -zxvf cmake-3.6.0.tar.gz && \
+    cd cmake-3.6.0 && \
+    ./bootstrap && \
+    gmake && \
+    gmake install
+    
 # NASM
 RUN cd /tmp/ffmpeg_sources && \
     curl -O -L http://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.bz2 && \
